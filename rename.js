@@ -1,19 +1,6 @@
-// Cannot modify Game object, so create global G object copy.
-G = {};
-Object.defineProperty(G, 'cpuh', {get: function () {return Game.cpu}});
-Object.defineProperty(G, 'ch', {get: function () {return Game.creeps}});
-Object.defineProperty(G, 'flh', {get: function () {return Game.flags}});
-Object.defineProperty(G, 'gclh', {get: function () {return Game.gcl}});
-Object.defineProperty(G, 'map', {get: function () {return Game.map}});
-Object.defineProperty(G, 'mkt', {get: function () {return Game.market}});
-Object.defineProperty(G, 'rh', {get: function () {return Game.rooms}});
-Object.defineProperty(G, 'wh', {get: function () {return Game.spawns}});
-Object.defineProperty(G, 'bh', {get: function () {return Game.structures}});
-Object.defineProperty(G, 'tq', {get: function () {return Game.time}});
-G.cpuqUsed = function () {return Game.getUsed()};
-G.objFrom_id = function (id) {return Game.getObjectById(id)};
-G.Email_s_q = function (sMessage, qMinutes) {Game.notify(sMessage, qMinutes)};
-G.Email_s = function (sMessage) {Game.notify(sMessage)};
+"use strict";
+
+
 
 // Room
 Object.defineProperty(Room.prototype, 'gt'    , {get: function () {
@@ -153,7 +140,7 @@ Object.defineProperty(StructureRoad.prototype, 'gt', {get: function () {return 1
 
 // StructureRampart
 Object.defineProperty(StructureRampart.prototype, 'tDecay', {get: function () {return this.ticksToDecay}});
-Object.defineProperty(StructureRampart.prototype, 'ktl', {get: function () {return Math.floor(this.hq / 300) * 100 + this.tDecay}});Object.defi;
+Object.defineProperty(StructureRampart.prototype, 'ktl', {get: function () {return Math.floor(this.hq / 300) * 100 + this.tDecay}});
 Object.defineProperty(StructureRampart.prototype, 'gt', {get: function () {return 3/100}});
 
 // Resource
@@ -177,7 +164,7 @@ ConstructionSite.prototype.vDelete = function() {return this.delete()};
 // Creep
 Object.defineProperty(Creep.prototype, 'bha', {get: function () {return this.body}});
 Object.defineProperty(Creep.prototype, 'bea', {get: function () {return this.body.map(function(h) {return h.type})}});
-Object.defineProperty(Creep.prototype, 'gq', {get: function () {return m.gqFrom_cbea(this.bea)}});
+Object.defineProperty(Creep.prototype, 'gq', {get: function () {return M.gqFrom_cbea(this.bea)}});
 Object.defineProperty(Creep.prototype, 'ch', {get: function () {return this.carry}});
 Object.defineProperty(Creep.prototype, 'cq', {get: function () {return _.sum(this.carry)}});
 Object.defineProperty(Creep.prototype, 'cqFree', {get: function () {return this.carryCapacity - _.sum(this.carry)}});

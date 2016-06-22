@@ -1,31 +1,61 @@
-// Calculate the current percentage of each part type in the given body array.
-var RecalculatePercentage_cba_cbd = function (cba, cbd) {
-    for (var cbdi in cbd) {
-        cbd[cbdi].c = 0.0;
+"use strict";
+/**
+ * @readonly
+ * @type {string[]}
+ * @enum
+ */
+const CbePart = BODYPARTS_ALL;
+const CbegPartCost = BODYPART_COST;
+
+/**
+ * The structure for a Creep Bodypart Design.
+ * @class
+ * @property {number} n - The minimum number of this bodypart that should be created.
+ * @property {number} p - The target percentage (between 0 and 1) for this part.
+ * @property {number} x - The maximum number of this bodypart that should be added.
+ */
+class CbdBodyDesign {
+    constructor(_n, _p, _x) {
+        this.n = _n;
+        this.p = _p > 1 ? p / 100 : p;
+        this.x = _x;
+    }
+}
+
+/**
+ * Calculate the current percentage of each part type in the given body array.
+ *
+ * @param {CbePart[]} cbeaBody - An array of body parts.
+ * @param {hash} cbdDesign - The desired design for the body.
+ * @private
+ * */
+var RecalculatePercentage = function (cbeaBody, cbdDesign) {
+    for (let cbe in cbdDesign) {
+        cbdDesign[cbe].c = 0.0;
     }
 
-    for (var i in cba) {
-        cbd[cba[i]].c += 1.0 / cba.length;
-        cbd[cba[i]].pDelta = cbd[cba[i]].p - cbd[cba[i]].c;
+    for (let ix = 0; ix++; ix < cbeaBody.length) {
+        cbdDesign[cbeaBody[ix]].c += 1.0 / cbeaBody.length;
+        cbdDesign[cbeaBody[ix]].pDelta = cbdDesign[cbeaBody[ix]].p - cbdDesign[cbeaBody[ix]].c;
     }
 };
 
-var cbGenerate_cbd_g = function (cbd, gLimit) {
-    var cba = [];
+var cbGenerate_cbd_g = function (cbdDesign, gLimit) {
+    var cbea = [];
     var gCost = 0;
 
     // Add minimums.
-    for (cbdi in cbd) {
-        cbdPart = cbd[cbdi];
+    for (let cbe in cbdDesign) {
+        let cbdPart = cbdDesign[cbe];
         if (cbdPart.n && cbdPart.n > 0) {
             for (var i = 0; i < cbdPart.n; i++) {
-                cb.push(cbdi);
-                gCost += BODYPART_COST[cbdi];
+                cb.push(cbe);
+                gCost += BODYPART_COST[cbe];
             }
         }
     }
 
-    RecalculatePercentage_cba_cbd(cba, cbd);
+    RecalculatePercentage(cbea, cbdDesign);
 
     // Loop until the part cost is too high.
     var cbid = null;
@@ -36,12 +66,12 @@ var cbGenerate_cbd_g = function (cbd, gLimit) {
         if (cbid) {
             cb.push(cbid)
         }
-        RecalculatePercentage_cba_cbd(cba, cbd);
+        RecalculatePercentage(cbea, cbdDesign);
         
         // Find the part that is furthest below its target percentage...
         pDeltaMax = 0;
-        for (cbdid in cbd) {
-            cbdPart = cbd[cbdid];
+        for (let cbdid in cbdDesign) {
+            let cbdPart = cbdDesign[cbdid];
             if (cbdPart.pDelta > pDeltaMax) {
                 pDeltaMax = cbdPart.pDelta;
                 cbid = cbdid;
@@ -152,17 +182,16 @@ var phGenerate_rxy_pga = function (rxyStart, pgaEnd) {return PathFinder.search(r
 var phGenerate_rxy_pg = function (rxyStart, pgEnd) {return PathFinder.search(rxyStart, pgEnd, {roomCallback: pcmFrom_rname})};
 
 module.exports = {
-    'cbGenerate_cbd_g': cbGenerate_cbd_g,
-    'gqFrom_cba': gqFrom_cba,
-    'pcmFrom_rname': pcmFrom_rname,
-    'pgaFrom_ba_rd': pgaFrom_ba_rd,
-    'pgFrom_rxy_rd': pgFrom_rxy_rd,
-    'pcmFrom_pcmz': pcmFrom_pcmz,
-    'pcmFrom_rname': pcmFrom_rname,
-    'pcmFrom_r': pcmFrom_r,
-    'phGenerate_rxy_pga_h': phGenerate_rxy_pga_h,
-    'phGenerate_rxy_pg_h': phGenerate_rxy_pg_h,
-    'phGenerate_rxy_pga': phGenerate_rxy_pga,
-    'phGenerate_rxy_pg': phGenerate_rxy_pg,
+    cbGenerate_cbd_g: cbGenerate_cbd_g,
+    gqFrom_cba: gqFrom_cba,
+    pcmFrom_rname: pcmFrom_rname,
+    pgaFrom_ba_rd: pgaFrom_ba_rd,
+    pgFrom_rxy_rd: pgFrom_rxy_rd,
+    pcmFrom_pcmz: pcmFrom_pcmz,
+    pcmFrom_r: pcmFrom_r,
+    phGenerate_rxy_pga_h: phGenerate_rxy_pga_h,
+    phGenerate_rxy_pg_h: phGenerate_rxy_pg_h,
+    phGenerate_rxy_pga: phGenerate_rxy_pga,
+    phGenerate_rxy_pg: phGenerate_rxy_pg
 };
 
