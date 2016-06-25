@@ -1,4 +1,3 @@
-/*
 m       Module
 j       obJect
 fn      FuNction
@@ -94,4 +93,3 @@ b       Building
  o      Observer
  n      power spawN
  k      nuKer
-*/
